@@ -26,6 +26,7 @@
   "homepage": "https://github.com/myso-kr/aframe-fonts-korean#readme",
   "dependencies": {
     "colors": "^1.1.2",
+    "jimp": "^0.2.28",
     "msdf-bmfont-xml": "^2.3.4"
   },
   "devDependencies": {

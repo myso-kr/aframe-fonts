@@ -3,7 +3,9 @@ const numCPUs = require('os').cpus().length;
 
 const File            = require('fs');
 const Path            = require('path');
+const Jimp            = require('jimp');
 const generateBMFont  = require('msdf-bmfont-xml');
+
 
 const Charset        = require('./charset').map((charCode)=>String.fromCharCode(charCode));
 const PATH_FONTS_LIB = Path.resolve(__dirname, './lib/fonts');
@@ -37,8 +39,6 @@ if(Cluster.isMaster) {
     })
     .reduce((output, fonts) => output.concat(fonts), [])
 
-  console.log(LIST_FONTS);
-
   let OFFSET_FONT = 0;
   Cluster.on('fork', (worker) => {
     const PATH_FONT = LIST_FONTS[OFFSET_FONT++];
@@ -71,20 +71,34 @@ if(Cluster.isMaster) {
         return process.send({ cmd: 'finish' });
       }
       generateBMFont(PATH_FONT_TTF, {
-        charset: Charset,
+        // charset: Charset,
         fontSize: 42,
         textureSize: [2048, 2048],
         outputType: 'json',
       }, (error, textures, font) => {
         if (!error) {
-          textures.forEach((sheet, index) => {
-            console.log(sheet.filename);
-            File.writeFileSync(PATH_FILE_TEXTURES, sheet.texture);
-          });
-          console.log(font.filename);
-          File.writeFileSync(PATH_FILE_FONTDATA, font.data);  
+          Promise.all(textures.map((sheet) => {
+            return new Promise((resolve, reject) => {
+              Jimp.read(sheet.texture, (err, image) => {
+                if(err) return reject(err);
+                return image.invert().getBuffer(Jimp.MIME_PNG, (err, buffer) => {
+                  if(err) return reject(err);
+                  File.writeFileSync(PATH_FILE_TEXTURES, buffer);
+                  resolve();
+                })
+              })
+            });
+          }))
+          .then(() => File.writeFileSync(PATH_FILE_FONTDATA, font.data))
+          .catch((error) => {
+            console.error(error);
+            File.existsSync(PATH_FILE_FONTDATA) && File.unlinkSync(PATH_FILE_FONTDATA);
+            File.existsSync(PATH_FILE_TEXTURES) && File.unlinkSync(PATH_FILE_TEXTURES);
+          })
+          .then(() => process.send({ cmd: 'finish' }));
+        } else {
+          process.send({ cmd: 'finish' });
         }
-        process.send({ cmd: 'finish' });
       });
     }
     if(message.cmd === 'exit') {
