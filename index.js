@@ -70,8 +70,10 @@ if(Cluster.isMaster) {
       if(File.existsSync(PATH_FILE_FONTDATA) && File.existsSync(PATH_FILE_TEXTURES)) {
         return process.send({ cmd: 'finish' });
       }
+      File.existsSync(PATH_FILE_FONTDATA) && File.unlinkSync(PATH_FILE_FONTDATA);
+      File.existsSync(PATH_FILE_TEXTURES) && File.unlinkSync(PATH_FILE_TEXTURES);
       generateBMFont(PATH_FONT_TTF, {
-        // charset: Charset,
+        charset: Charset,
         fontSize: 42,
         textureSize: [2048, 2048],
         outputType: 'json',
