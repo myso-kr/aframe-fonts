@@ -1,5 +1,5 @@
 {
-  "name": "aframe-fonts",
+  "name": "aframe-fonts-korean",
   "version": "1.0.0",
   "description": "Google Fonts for A-Frame",
   "main": "generate.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/etiennepinchon/aframe-fonts.git"
+    "url": "git+https://github.com/myso-kr/aframe-fonts-korean.git"
   },
   "keywords": [
     "A-Frame",
@@ -21,12 +21,12 @@
   "author": "Etienne Pinchon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/etiennepinchon/a-fonts/issues"
+    "url": "https://github.com/myso-kr/aframe-fonts-korean/issues"
   },
-  "homepage": "https://github.com/etiennepinchon/a-fonts#readme",
+  "homepage": "https://github.com/myso-kr/aframe-fonts-korean#readme",
   "dependencies": {
     "colors": "^1.1.2",
-    "msdf-bmfont": "^1.0.1"
+    "msdf-bmfont-xml": "^2.3.4"
   },
   "devDependencies": {
     "budo": "^10.0.4"
