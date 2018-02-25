@@ -25,8 +25,10 @@
   },
   "homepage": "https://github.com/myso-kr/aframe-fonts-korean#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "colors": "^1.1.2",
     "jimp": "^0.2.28",
+    "lodash": "^4.17.5",
     "msdf-bmfont-xml": "^2.3.4"
   },
   "devDependencies": {

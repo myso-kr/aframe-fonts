@@ -1,5 +1,5 @@
 const Cluster         = require('cluster');
-const numCPUs = require('os').cpus().length;
+const numCPUs         = 1; //require('os').cpus().length;
 
 const File            = require('fs');
 const Path            = require('path');
@@ -7,7 +7,7 @@ const Jimp            = require('jimp');
 const generateBMFont  = require('msdf-bmfont-xml');
 
 
-const Charset        = require('./charset').map((charCode)=>String.fromCharCode(charCode));
+const CONFIG        = require('./config');
 const PATH_FONTS_LIB = Path.resolve(__dirname, './lib/fonts');
 const PATH_FONTS     = Path.resolve(__dirname, './fonts');
 
@@ -73,9 +73,9 @@ if(Cluster.isMaster) {
       File.existsSync(PATH_FILE_FONTDATA) && File.unlinkSync(PATH_FILE_FONTDATA);
       File.existsSync(PATH_FILE_TEXTURES) && File.unlinkSync(PATH_FILE_TEXTURES);
       generateBMFont(PATH_FONT_TTF, {
-        charset: Charset,
-        fontSize: 42,
-        textureSize: [2048, 2048],
+        charset: CONFIG.chars,
+        fontSize: 24,
+        textureSize: [4096, 4096],
         outputType: 'json',
       }, (error, textures, font) => {
         if (!error) {
