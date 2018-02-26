@@ -74,7 +74,7 @@ if(Cluster.isMaster) {
       File.existsSync(PATH_FILE_TEXTURES) && File.unlinkSync(PATH_FILE_TEXTURES);
       generateBMFont(PATH_FONT_TTF, {
         charset: CONFIG.chars,
-        fontSize: 24,
+        fontSize: 42,
         textureSize: [4096, 4096],
         outputType: 'json',
       }, (error, textures, font) => {

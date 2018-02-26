@@ -37,14 +37,14 @@ module.exports = exports = class EncodingParser extends EncodingBlockSet {
     this.push.apply(this, Object.values(preset));
   }
 
-  constructor(encodeName) {
+  constructor(encodeName, ...blocks) {
     super();
     const encode = encodeName && this.__findEncode(encodeName);
     const preset = encode && Path.resolve(__dirname, `encodings/index-${encode.name.toLowerCase()}.txt`);
     if(preset && File.existsSync(preset)) {
       this.__parse(preset);
     } else {
-      this.push.apply(this, EncodingUnicode.blocks);
+      this.push.apply(this, blocks);
     }
   }
 }

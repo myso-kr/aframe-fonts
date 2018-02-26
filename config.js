@@ -1,2 +1,2 @@
-const Charset = require('./charset/index');
-module.exports = exports = Charset.load('euc-kr');
+const Charset = require('./charset/custom/ks1001');
+module.exports = exports = Charset;

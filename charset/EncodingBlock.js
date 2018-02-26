@@ -12,7 +12,8 @@ module.exports = exports = class EncodingBlock extends Array {
       this.info = limit;
       this.push.apply(this, start);
     } else if(typeof start === 'string') {
-      this.info = start;
+      this.info = limit;
+      this.push.apply(this, Array.from(start).map((char)=>char.charCodeAt(0)));
     }
   }
 
